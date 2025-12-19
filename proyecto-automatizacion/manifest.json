@@ -1,0 +1,15 @@
+{
+  "name": "Automatización Inteligente",
+  "short_name": "Automatiza",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
+  "icons": [
+    {
+      "src": "/assets/og-image.svg",
+      "sizes": "1200x630",
+      "type": "image/svg+xml"
+    }
+  ]
+}

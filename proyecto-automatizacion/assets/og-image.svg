@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#5eead4" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+    <style>
+      .title{ font-family: Inter, Arial, sans-serif; font-weight:700; fill: #071025; font-size:56px }
+      .subtitle{ font-family: Inter, Arial, sans-serif; fill: rgba(255,255,255,0.85); font-size:20px }
+    </style>
+  </defs>
+  <rect width="1200" height="630" fill="#071228" />
+  <defs>
+    <linearGradient id="g2" x1="0" x2="1">
+      <stop offset="0%" stop-color="#0ea5a4" />
+      <stop offset="100%" stop-color="#ffd166" />
+    </linearGradient>
+  </defs>
+  <circle cx="980" cy="130" r="120" fill="url(#g2)" opacity="0.18" />
+  <circle cx="200" cy="420" r="100" fill="url(#g2)" opacity="0.14" />
+  <g transform="translate(80,220)">
+    <rect width="1040" height="200" rx="18" fill="rgba(255,255,255,0.015)" />
+    <text x="40" y="70" style="font-family: Sora, Inter, Arial; font-weight:700; fill: #e8f1f7; font-size:48px">Automatiza lo repetitivo</text>
+    <text x="40" y="115" style="font-family: Inter, Arial; fill: rgba(255,255,255,0.8); font-size:18px">Bots personalizados · correos · búsquedas · descargas</text>
+  </g>
+</svg>
