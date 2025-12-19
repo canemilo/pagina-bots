@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Automatiza tareas repetitivas con bots personalizados: gestión de correos, búsquedas inteligentes, descargas y validación de datos. Aumenta eficiencia con soluciones a medida.">
+  <title>Automatización Inteligente | Bots Profesionales</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-100: #071228;
+      --bg-200: #0b2636;
+      --accent-1: #0ea5a4;
+      --accent-2: #ffd166;
+      --accent-3: #1fb6ff;
+      --text: #e8f1f7;
+      --muted: #98a4b2;
+      --glass-border: rgba(255,255,255,0.03);
+      --glass-blur: 6px;
+      --max-width: 1200px;
+      font-family: 'Sora', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(180deg, var(--bg-100), var(--bg-200));
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 1.5rem;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      color: var(--muted);
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 0.85rem 1.6rem;
+      border-radius: 14px;
+      color: #02121a;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+      box-shadow: 0 6px 18px rgba(2,18,26,0.28);
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .cta:hover { transform: translateY(-4px) scale(1.03); }
+
+    section {
+      padding: 6rem 2rem;
+      max-width: var(--max-width);
+      margin: auto;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 28px rgba(2,8,15,0.6);
+      border: 1px solid var(--glass-border);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .card:hover { transform: translateY(-6px); }
+
+    .card h3 { margin-bottom: 0.4rem; color: var(--accent-1); font-weight:700; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    /* Sección de casos reales */
+    .cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .case-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.002));
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 10px 28px rgba(2,8,15,0.4);
+      transition: transform 0.22s ease;
+    }
+    .case-card:hover { transform: translateY(-4px); }
+
+    .case-card h4 { color: var(--accent-2); margin-bottom: 0.6rem; }
+    .case-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .main-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    .case-images {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .case-images img {
+      width: 120px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .case-images img:hover { transform: scale(1.08); }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Automatiza lo repetitivo</h1>
+    <p>Bots personalizados que gestionan correos, realizan búsquedas inteligentes, descargas automáticas y generan resultados listos para usar.</p>
+    <a href="#bots" class="cta">Ver lo que hacen</a>
+  </header>
+
+  <main>
+    <section id="bots">
+      <h2>¿Qué hacen mis bots?</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Automatización de correos</h3>
+          <p>Envío, lectura y clasificación automática de emails, con respuestas condicionadas según reglas o eventos definidos.</p>
+        </div>
+        <div class="card">
+          <h3>Búsqueda inteligente</h3>
+          <p>Bots que navegan por la web, filtran información relevante y localizan documentos o datos concretos.</p>
+        </div>
+        <div class="card">
+          <h3>Descarga y gestión de archivos</h3>
+          <p>Descarga automática de PDFs y documentos, organización por carpetas y control de versiones.</p>
+        </div>
+        <div class="card">
+          <h3>Flujos personalizados</h3>
+          <p>Los bots se adaptan a tu proceso y generan resultados finales sin intervención humana.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cases">
+      <h2>Ejemplos reales</h2>
+      <div class="cases">
+
+        <!-- Caso 1: Correo -->
+        <div class="case-card">
+          <h4>Correo automático</h4>
+          <img id="main-email-img" src="assets/email1.png" alt="Email paso 1" class="main-img">
+          <div class="case-images">
+            <img src="assets/email1.png" alt="Email paso 1" onclick="showImage(this)">
+            <img src="assets/email2.png" alt="Email paso 2" onclick="showImage(this)">
+            <img src="assets/email3.png" alt="Email paso 3" onclick="showImage(this)">
+          </div>
+          <p>Lectura y respuesta de emails según reglas definidas.</p>
+        </div>
+
+        <!-- Caso 2: Búsqueda -->
+        <div class="case-card">
+          <h4>Búsqueda en BOE</h4>
+          <img id="main-scraping-img" src="assets/case-scraping.png" alt="Búsqueda inteligente" class="main-img">
+          <div class="case-images">
+            <img src="assets/case-scraping.png" alt="Paso 1" onclick="showImage(this)">
+            <img src="assets/case-scraping2.png" alt="Paso 2" onclick="showImage(this)">
+            <img src="assets/case-scraping3.png" alt="Paso 3" onclick="showImage(this)">
+          </div>
+          <p>El bot busca documentos, filtra por tipo y descarga PDFs automáticamente para análisis posterior.</p>
+        </div>
+
+        <!-- Caso 3: Archivos -->
+        <div class="case-card">
+          <h4>Descarga y organización</h4>
+          <img id="main-files-img" src="assets/case-files.png" alt="Gestión de archivos" class="main-img">
+          <div class="case-images">
+            <img src="assets/case-files.png" alt="Archivo 1" onclick="showImage(this)">
+            <img src="assets/case-files2.png" alt="Archivo 2" onclick="showImage(this)">
+          </div>
+          <p>Automatiza la descarga de archivos y los organiza en carpetas según fecha, tipo o proyecto.</p>
+        </div>
+
+        <!-- Caso 4: Integración -->
+        <div class="case-card">
+          <h4>Integración de datos</h4>
+          <img id="main-integration-img" src="assets/case-integration.png" alt="Integración" class="main-img">
+          <div class="case-images">
+            <img src="assets/case-integration.png" alt="Paso 1" onclick="showImage(this)">
+            <img src="assets/case-integration2.png" alt="Paso 2" onclick="showImage(this)">
+          </div>
+          <p>El bot combina información de varias fuentes y genera reportes listos para enviar o almacenar.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 · Automatización Inteligente · Bots a medida
+  </footer>
+
+  <script>
+    function showImage(el) {
+      const mainImg = el.closest('.case-card').querySelector('.main-img');
+      mainImg.src = el.src;
+    }
+  </script>
+
+</body>
+</html>
