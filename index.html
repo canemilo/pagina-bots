@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebPilot | Visual Automation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #5d5dff;
+      --primary-soft: rgba(93, 93, 255, 0.15);
+      --bg-light: #f9f9fb;
+      --bg-dark: #121214;
+      --canvas-bg-dark: #000000;
+      --text-light: #1d1d1f;
+      --text-dim-light: #6e6e73;
+      --text-dark: #f0f0f5;
+      --text-dim-dark: #b0b0b5;
+      --border-light: rgba(0,0,0,0.08);
+      --border-dark: rgba(255,255,255,0.1);
+      --accent-green: #32d74b;
+      --card-shadow: 0 15px 40px rgba(0,0,0,0.05);
+      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background: var(--bg-light); 
+      color: var(--text-light); 
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed; top: 0; width: 100%; height: 70px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 5%; background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border-light); z-index: 1000;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.2rem; }
+    .logo-box { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; }
+    .lang-switcher { display: flex; background: #e0e0e0; padding: 4px; border-radius: 12px; }
+    .lang-btn { 
+      border: none; padding: 6px 12px; font-size: 11px; font-weight: 600; 
+      border-radius: 8px; cursor: pointer; color: var(--text-dim-light); transition: 0.2s;
+      min-width: 40px;
+    }
+    .lang-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    header { padding: 140px 5% 80px; text-align: center; max-width: 1000px; margin: 0 auto; }
+    h1 { font-size: clamp(40px, 8vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 24px; }
+    .hero-p { font-size: 1.25rem; color: var(--text-dim-light); max-width: 600px; margin: 0 auto 40px; line-height: 1.5; }
+    .btn-hero { 
+      padding: 16px 36px; background: var(--primary); color: white; border-radius: 14px;
+      font-weight: 700; text-decoration: none; display: inline-block; transition: 0.3s;
+    }
+    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(93, 93, 255, 0.25); }
+
+    .features-section { padding: 80px 5% 100px; max-width: 1200px; margin: 0 auto; }
+    .section-title { text-align: center; margin-bottom: 60px; }
+    .section-title h2 { font-size: clamp(30px, 5vw, 48px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 15px; }
+    .section-title p { font-size: 1.15rem; color: var(--text-dim-light); max-width: 700px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+    .feature-card {
+      background: white; border: 1px solid var(--border-light); padding: 35px; border-radius: 20px;
+      box-shadow: var(--card-shadow); transition: 0.3s var(--ease);
+    }
+    .feature-card:hover { transform: translateY(-8px); border-color: var(--primary); }
+    .f-icon-wrapper { 
+      width: 60px; height: 60px; background: var(--primary-soft); border-radius: 15px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 25px;
+    }
+    .f-icon { font-size: 28px; color: var(--primary); }
+    .feature-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+    .feature-card p { color: var(--text-dim-light); line-height: 1.6; }
+
+    .use-cases-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;
+      margin-top: 40px;
+    }
+    .use-case-card {
+      background: white; border: 1px solid var(--border-light); padding: 30px; border-radius: 20px;
+      box-shadow: var(--card-shadow); transition: 0.3s var(--ease);
+    }
+    .use-case-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .uc-icon-wrapper { 
+      width: 50px; height: 50px; background: var(--primary-soft); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .uc-icon { font-size: 24px; color: var(--primary); }
+    .uc-tag {
+      display: inline-block; padding: 4px 12px; background: rgba(93, 93, 255, 0.1);
+      color: var(--primary); border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .use-case-card h4 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .use-case-card p { color: var(--text-dim-light); line-height: 1.6; font-size: 0.95rem; }
+
+    .canvas-section { padding: 80px 5% 100px; }
+    .canvas-window {
+      max-width: 1100px; margin: 0 auto; height: 600px; background: var(--canvas-bg-dark);
+      border-radius: 32px; border: 1px solid var(--border-light); position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.2); overflow: hidden;
+    }
+    .canvas-bg {
+      height: 100%; width: 100%; position: relative;
+      background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .node {
+      position: absolute; width: 240px; background: rgba(255,255,255,0.08); 
+      backdrop-filter: blur(5px);
+      border-radius: 18px; border: 1px solid rgba(255,255,255,0.15); padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3); cursor: grab; z-index: 10;
+      color: var(--text-dark); transition: box-shadow 0.2s, transform 0.2s; user-select: none;
+    }
+    .node:active { cursor: grabbing; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-color: var(--primary); transform: scale(1.05); }
+    .node-header { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+    .node-status { width: 8px; height: 8px; border-radius: 50%; }
+    .node-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; width: 100%; margin-top: 8px; }
+
+    #flow-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+    .flow-path { fill: none; stroke: var(--primary); stroke-width: 3; opacity: 0.8; filter: drop-shadow(0 0 8px rgba(93,93,255,0.5)); }
+    .flow-dot { fill: white; filter: drop-shadow(0 0 5px white); }
+
+    footer { padding: 80px 5%; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-dim-light); font-size: 14px; }
+    
+    .tech-badges {
+      display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;
+    }
+    .tech-badge {
+      background: white; border: 1px solid var(--border-light); padding: 8px 16px;
+      border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text-dim-light);
+      display: flex; align-items: center; gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-box"><i class="fas fa-bolt"></i></div>
+    <span id="logo-text">WebPilot</span>
+  </div>
+  <div class="lang-switcher" id="lang-switcher">
+    <button class="lang-btn active" data-lang="es">ES</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="de">DE</button>
+    <button class="lang-btn" data-lang="fr">FR</button>
+  </div>
+</nav>
+
+<header>
+  <h1 id="h-title">Automatiza la web. Visualmente.</h1>
+  <p class="hero-p" id="h-p">
+    Diseña flujos inteligentes que navegan, extraen datos y ejecutan acciones
+    como lo haría una persona. Sin código. Desde cualquier dispositivo.
+  </p>
+  <a href="#canvas" class="btn-hero" id="h-btn">Explorar Automation Canvas</a>
+</header>
+
+<section class="features-section">
+  <div class="section-title">
+    <h2 id="features-title">Un copiloto digital para tareas reales.</h2>
+    <p id="features-subtitle">
+      WebPilot convierte procesos manuales en automatizaciones visuales listas para producción.
+    </p>
+  </div>
+  <div class="features-grid" id="features-grid">
+    <!-- Features will be populated by JavaScript -->
+  </div>
+</section>
+
+<section class="canvas-section" id="canvas">
+  <div class="section-title">
+    <h2 id="canvas-title">Automation Canvas</h2>
+    <p id="canvas-subtitle">
+      Construye flujos paso a paso usando bloques visuales conectados.
+      Arrastra, conecta y ejecuta.
+    </p>
+  </div>
+
+  <div class="canvas-window">
+    <div class="canvas-bg" id="canvas-bg">
+      <svg id="flow-svg">
+        <path id="path1" class="flow-path"></path>
+        <circle id="dot1" r="4" class="flow-dot"></circle>
+        <path id="path2" class="flow-path"></path>
+        <circle id="dot2" r="4" class="flow-dot"></circle>
+        <path id="path3" class="flow-path"></path>
+        <circle id="dot3" r="4" class="flow-dot"></circle>
+      </svg>
+
+      <div class="node" id="n1" style="top:120px; left:80px;">
+        <div class="node-header">
+          <span class="node-status" style="background:#32d74b"></span>
+          <span id="n1-t">Trigger: Manual</span>
+        </div>
+        <div class="node-bar"></div>
+      </div>
+
+      <div class="node" id="n2" style="top:260px; left:420px;">
+        <div class="node-header">
+          <span class="node-status" style="background:#ffd60a"></span>
+          <span id="n2-t">Acción: Extraer datos</span>
+        </div>
+        <div class="node-bar"></div>
+      </div>
+
+      <div class="node" id="n3" style="top:160px; left:760px;">
+        <div class="node-header">
+          <span class="node-status" style="background:#ff453a"></span>
+          <span id="n3-t">Output: Google Sheets</span>
+        </div>
+        <div class="node-bar"></div>
+      </div>
+
+      <div class="node" id="n4" style="top:380px; left:200px;">
+        <div class="node-header">
+          <span class="node-status" style="background:#64d2ff"></span>
+          <span id="n4-t">Element Picker</span>
+        </div>
+        <div class="node-bar"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="section-title">
+    <h2 id="usecases-title">Casos de Uso & Aplicaciones</h2>
+    <p id="usecases-subtitle">
+      Desde automatizaciones simples hasta flujos complejos de producción.
+    </p>
+  </div>
+  
+  <div class="use-cases-grid" id="use-cases-grid">
+    <!-- Use cases will be populated by JavaScript -->
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="section-title">
+    <h2 id="architecture-title">Arquitectura Escalable</h2>
+    <p id="architecture-subtitle">
+      Diseñado para crecer desde prototipos rápidos hasta sistemas empresariales.
+    </p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-shield-alt f-icon"></i></div>
+      <h3 id="arch1-title">Seguro y controlado</h3>
+      <p id="arch1-text">Cada flujo es explícito, visual y auditable. Sabes exactamente qué hace en cada paso.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-cubes f-icon"></i></div>
+      <h3 id="arch2-title">Bloques reutilizables</h3>
+      <p id="arch2-text">Diseña acciones una vez y reutilízalas en múltiples flujos y proyectos.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-mobile-alt f-icon"></i></div>
+      <h3 id="arch3-title">Multiplataforma</h3>
+      <p id="arch3-text">El Automation WebPilot funciona en escritorio y móvil, pensado para prototipar en cualquier lugar.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-brain f-icon"></i></div>
+      <h3 id="arch4-title">Preparado para IA</h3>
+      <p id="arch4-text">Arquitectura pensada para integrar lógica inteligente, validaciones y decisiones automáticas.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-rocket f-icon"></i></div>
+      <h3 id="arch5-title">De idea a producción</h3>
+      <p id="arch5-text">Pasa de un flujo visual a una automatización real sin rehacer el trabajo.</p>
+    </div>
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas fa-code-branch f-icon"></i></div>
+      <h3 id="arch6-title">Escalable por diseño</h3>
+      <p id="arch6-text">Pensado para crecer hacia bots complejos, scraping avanzado y sistemas RPA completos.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 5%; text-align:center;">
+  <h2 style="font-size:clamp(32px,6vw,48px); font-weight:800; margin-bottom:20px;" id="final-title">
+    La automatización no debería ser complicada
+  </h2>
+  <p style="max-width:600px; margin:0 auto 40px; color:var(--text-dim-light); font-size:1.15rem;" id="final-text">
+    WebPilot demuestra que los flujos complejos pueden diseñarse de forma clara,
+    visual y reutilizable.
+  </p>
+  <a href="#canvas" class="btn-hero" id="final-btn">Ver WebPilot en acción</a>
+</section>
+
+<footer>
+  <p id="footer-text">
+    © 2025 WebPilot Automation Engine · Visual workflows 
+  </p>
+</footer>
+
+<script>
+// Translations object
+const translations = {
+  es: {
+    // Navigation
+    "logo-text": "WebPilot",
+    
+    // Hero section
+    "h-title": "Automatiza la web. Visualmente.",
+    "h-p": "Diseña flujos inteligentes que navegan, extraen datos y ejecutan acciones como lo haría una persona. Sin código. Desde cualquier dispositivo.",
+    "h-btn": "Explorar Automation Canvas",
+    
+    // Features section
+    "features-title": "Un copiloto digital para tareas reales.",
+    "features-subtitle": "WebPilot convierte procesos manuales en automatizaciones visuales listas para producción.",
+    
+    // Features grid
+    "feat1-title": "Element Picker Visual",
+    "feat1-text": "Selecciona elementos web visualmente y genera selectores CSS automáticamente.",
+    "feat2-title": "Constructor de Flujos",
+    "feat2-text": "Arrastra y suelta bloques para crear automatizaciones complejas sin escribir código.",
+    "feat3-title": "Templates Predefinidos",
+    "feat3-text": "Comienza rápido con plantillas para scraping, pruebas, y automatizaciones comunes.",
+    "feat4-title": "Ejecución con Playwright",
+    "feat4-text": "Backend robusto que ejecuta automatizaciones reales en navegadores controlados.",
+    "feat5-title": "Next.js 14 Frontend",
+    "feat5-text": "Interfaz moderna y reactiva construida con la última versión de Next.js.",
+    "feat6-title": "API RESTful",
+    "feat6-text": "API completa para gestionar y ejecutar automatizaciones programáticamente.",
+    
+    // Canvas section
+    "canvas-title": "Automation Canvas",
+    "canvas-subtitle": "Construye flujos paso a paso usando bloques visuales conectados. Arrastra, conecta y ejecuta.",
+    "n1-t": "Trigger: Manual",
+    "n2-t": "Acción: Extraer datos",
+    "n3-t": "Output: Google Sheets",
+    "n4-t": "Element Picker",
+    
+    // Use cases section
+    "usecases-title": "Casos de Uso & Aplicaciones",
+    "usecases-subtitle": "Desde automatizaciones simples hasta flujos complejos de producción.",
+    
+    // Use cases grid
+    "uc1-title": "Web Scraping Avanzado",
+    "uc1-text": "Extrae datos de sitios complejos con JavaScript, paginación y autenticación.",
+    "uc1-tag": "ACTUAL",
+    "uc2-title": "Automatización de Pruebas",
+    "uc2-text": "Pruebas end-to-end y de regresión visual para aplicaciones web.",
+    "uc2-tag": "ACTUAL",
+    "uc3-title": "RPA para Negocios",
+    "uc3-text": "Automatiza procesos empresariales que involucran múltiples sistemas web.",
+    "uc3-tag": "ACTUAL",
+    "uc4-title": "Monitoreo de Precios",
+    "uc4-text": "Rastrea precios de competidores y productos en tiempo real.",
+    "uc4-tag": "FUTURO",
+    "uc5-title": "Automatización de Social Media",
+    "uc5-text": "Programa publicaciones, extrae métricas y automatiza interacciones.",
+    "uc5-tag": "FUTURO",
+    "uc6-title": "Integración entre Sistemas",
+    "uc6-text": "Conecta aplicaciones web que no tienen APIs mediante automatización.",
+    "uc6-tag": "FUTURO",
+    
+    // Architecture section
+    "architecture-title": "Arquitectura Escalable",
+    "architecture-subtitle": "Diseñado para crecer desde prototipos rápidos hasta sistemas empresariales.",
+    "arch1-title": "Seguro y controlado",
+    "arch1-text": "Cada flujo es explícito, visual y auditable. Sabes exactamente qué hace el bot en cada paso.",
+    "arch2-title": "Bloques reutilizables",
+    "arch2-text": "Diseña acciones una vez y reutilízalas en múltiples flujos y proyectos.",
+    "arch3-title": "Canvas multiplataforma",
+    "arch3-text": "El Automation Canvas funciona en escritorio y móvil, pensado para prototipar en cualquier lugar.",
+    "arch4-title": "Preparado para IA",
+    "arch4-text": "Arquitectura pensada para integrar lógica inteligente, validaciones y decisiones automáticas.",
+    "arch5-title": "De idea a producción",
+    "arch5-text": "Pasa de un flujo visual a una automatización real sin rehacer el trabajo.",
+    "arch6-title": "Escalable por diseño",
+    "arch6-text": "Pensado para crecer hacia bots complejos, scraping avanzado y sistemas RPA completos.",
+    
+    // Final section
+    "final-title": "La automatización no debería ser complicada",
+    "final-text": "WebPilot demuestra que los flujos complejos pueden diseñarse de forma clara, visual y reutilizable.",
+    "final-btn": "Ver Canvas en acción",
+    
+    // Footer
+    "footer-text": "© 2025 WebPilot Automation Engine · Flujos de trabajo visuales para la web ",
+  
+  },
+  
+  en: {
+    "logo-text": "WebPilot",
+    "h-title": "Automate the web. Visually.",
+    "h-p": "Design smart flows that navigate, extract data, and perform actions like a human would. No code. From any device.",
+    "h-btn": "Explore Automation Canvas",
+    "features-title": "A digital copilot for real tasks.",
+    "features-subtitle": "WebPilot turns manual processes into production-ready visual automations.",
+    "feat1-title": "Visual Element Picker",
+    "feat1-text": "Visually select web elements and automatically generate CSS selectors.",
+    "feat2-title": "Flow Builder",
+    "feat2-text": "Drag and drop blocks to create complex automations without writing code.",
+    "feat3-title": "Predefined Templates",
+    "feat3-text": "Start quickly with templates for scraping, testing, and common automations.",
+    "feat4-title": "Playwright Execution",
+    "feat4-text": "Robust backend that executes real automations in controlled browsers.",
+    "feat5-title": "Next.js 14 Frontend",
+    "feat5-text": "Modern, reactive interface built with the latest version of Next.js.",
+    "feat6-title": "RESTful API",
+    "feat6-text": "Complete API to manage and execute automations programmatically.",
+    "canvas-title": "Automation Canvas",
+    "canvas-subtitle": "Build step-by-step flows using connected visual blocks. Drag, connect, and execute.",
+    "n1-t": "Trigger: Manual",
+    "n2-t": "Action: Extract data",
+    "n3-t": "Output: Google Sheets",
+    "n4-t": "Element Picker",
+    "usecases-title": "Use Cases & Applications",
+    "usecases-subtitle": "From simple automations to complex production flows.",
+    "uc1-title": "Advanced Web Scraping",
+    "uc1-text": "Extract data from complex sites with JavaScript, pagination, and authentication.",
+    "uc1-tag": "CURRENT",
+    "uc2-title": "Test Automation",
+    "uc2-text": "End-to-end and visual regression testing for web applications.",
+    "uc2-tag": "CURRENT",
+    "uc3-title": "Business RPA",
+    "uc3-text": "Automate business processes involving multiple web systems.",
+    "uc3-tag": "CURRENT",
+    "uc4-title": "Price Monitoring",
+    "uc4-text": "Track competitor and product prices in real time.",
+    "uc4-tag": "FUTURE",
+    "uc5-title": "Social Media Automation",
+    "uc5-text": "Schedule posts, extract metrics, and automate interactions.",
+    "uc5-tag": "FUTURE",
+    "uc6-title": "System Integration",
+    "uc6-text": "Connect web applications that don't have APIs through automation.",
+    "uc6-tag": "FUTURE",
+    "architecture-title": "Scalable Architecture",
+    "architecture-subtitle": "Designed to grow from quick prototypes to enterprise systems.",
+    "arch1-title": "Secure and controlled",
+    "arch1-text": "Each flow is explicit, visual, and auditable. You know exactly what the bot does at each step.",
+    "arch2-title": "Reusable blocks",
+    "arch2-text": "Design actions once and reuse them in multiple flows and projects.",
+    "arch3-title": "Cross-platform Canvas",
+    "arch3-text": "The Automation Canvas works on desktop and mobile, designed for prototyping anywhere.",
+    "arch4-title": "AI-Ready",
+    "arch4-text": "Architecture designed to integrate intelligent logic, validations, and automatic decisions.",
+    "arch5-title": "From idea to production",
+    "arch5-text": "Go from a visual flow to a real automation without redoing the work.",
+    "arch6-title": "Scalable by design",
+    "arch6-text": "Designed to grow into complex bots, advanced scraping, and complete RPA systems.",
+    "final-title": "Automation shouldn't be complicated",
+    "final-text": "WebPilot shows that complex flows can be designed clearly, visually, and reusably.",
+    "final-btn": "See Canvas in action",
+    "footer-text": "© 2025 WebPilot Automation Engine · Visual workflows for the web",
+  
+  },
+  
+  de: {
+    "logo-text": "WebPilot",
+    "h-title": "Automatisiere das Web. Visuell.",
+    "h-p": "Entwirfe intelligente Abläufe, die navigieren, Daten extrahieren und Aktionen wie ein Mensch ausführen. Kein Code. Von jedem Gerät.",
+    "h-btn": "Automation Canvas erkunden",
+    "features-title": "Ein digitaler Copilot für echte Aufgaben.",
+    "features-subtitle": "WebPilot verwandelt manuelle Prozesse in produktionsreife visuelle Automatisierungen.",
+    "feat1-title": "Visueller Element-Picker",
+    "feat1-text": "Wähle Web-Elemente visuell aus und generiere automatisch CSS-Selektoren.",
+    "feat2-title": "Ablauf-Editor",
+    "feat2-text": "Ziehe und lasse Blöcke fallen, um komplexe Automatisierungen ohne Code zu erstellen.",
+    "feat3-title": "Vordefinierte Vorlagen",
+    "feat3-text": "Starte schnell mit Vorlagen für Scraping, Tests und gängige Automatisierungen.",
+    "feat4-title": "Playwright-Ausführung",
+    "feat4-text": "Robustes Backend, das echte Automatisierungen in kontrollierten Browsern ausführt.",
+    "feat5-title": "Next.js 14 Frontend",
+    "feat5-text": "Moderne, reaktive Oberfläche, gebaut mit der neuesten Version von Next.js.",
+    "feat6-title": "RESTful API",
+    "feat6-text": "Vollständige API zur programmatischen Verwaltung und Ausführung von Automatisierungen.",
+    "canvas-title": "Automation Canvas",
+    "canvas-subtitle": "Baue Schritt-für-Schritt-Abläufe mit verbundenen visuellen Blöcken. Ziehen, verbinden und ausführen.",
+    "n1-t": "Trigger: Manuell",
+    "n2-t": "Aktion: Daten extrahieren",
+    "n3-t": "Ausgabe: Google Sheets",
+    "n4-t": "Element Picker",
+    "usecases-title": "Anwendungsfälle & Anwendungen",
+    "usecases-subtitle": "Von einfachen Automatisierungen bis zu komplexen Produktionsabläufen.",
+    "uc1-title": "Erweitertes Web-Scraping",
+    "uc1-text": "Extrahiere Daten von komplexen Seiten mit JavaScript, Paginierung und Authentifizierung.",
+    "uc1-tag": "AKTUELL",
+    "uc2-title": "Testautomatisierung",
+    "uc2-text": "End-to-End- und visuelle Regressionstests für Webanwendungen.",
+    "uc2-tag": "AKTUELL",
+    "uc3-title": "Business-RPA",
+    "uc3-text": "Automatisiere Geschäftsprozesse, die mehrere Websysteme betreffen.",
+    "uc3-tag": "AKTUELL",
+    "uc4-title": "Preisüberwachung",
+    "uc4-text": "Verfolge Konkurrenz- und Produktpreise in Echtzeit.",
+    "uc4-tag": "ZUKÜNFTIG",
+    "uc5-title": "Social-Media-Automatisierung",
+    "uc5-text": "Planen von Beiträgen, Extrahieren von Metriken und Automatisieren von Interaktionen.",
+    "uc5-tag": "ZUKÜNFTIG",
+    "uc6-title": "Systemintegration",
+    "uc6-text": "Verbinde Webanwendungen ohne APIs durch Automatisierung.",
+    "uc6-tag": "ZUKÜNFTIG",
+    "architecture-title": "Skalierbare Architektur",
+    "architecture-subtitle": "Entworfen, um von schnellen Prototypen zu Unternehmenssystemen zu wachsen.",
+    "arch1-title": "Sicher und kontrolliert",
+    "arch1-text": "Jeder Ablauf ist explizit, visuell und überprüfbar. Du weißt genau, was der Bot in jedem Schritt tut.",
+    "arch2-title": "Wiederverwendbare Blöcke",
+    "arch2-text": "Entwerfe Aktionen einmal und verwende sie in mehreren Abläufen und Projekten wieder.",
+    "arch3-title": "Plattformübergreifendes Canvas",
+    "arch3-text": "Das Automation Canvas funktioniert auf Desktop und Mobile, entworfen für Prototyping überall.",
+    "arch4-title": "KI-Bereit",
+    "arch4-text": "Architektur für intelligente Logik, Validierungen und automatische Entscheidungen.",
+    "arch5-title": "Von der Idee zur Produktion",
+    "arch5-text": "Gehe von einem visuellen Ablauf zu einer echten Automatisierung, ohne die Arbeit neu zu machen.",
+    "arch6-title": "Skalierbar durch Design",
+    "arch6-text": "Entworfen, um zu komplexen Bots, erweitertem Scraping und kompletten RPA-Systemen zu wachsen.",
+    "final-title": "Automatisierung sollte nicht kompliziert sein",
+    "final-text": "WebPilot zeigt, dass komplexe Abläufe klar, visuell und wiederverwendbar gestaltet werden können.",
+    "final-btn": "Canvas in Aktion sehen",
+    "footer-text": "© 2025 WebPilot Automation Engine · Visuelle Workflows für das Web",
+    
+  },
+  
+  fr: {
+    "logo-text": "WebPilot",
+    "h-title": "Automatisez le web. Visuellement.",
+    "h-p": "Concevez des flux intelligents qui naviguent, extraient des données et exécutent des actions comme un humain. Sans code. Depuis n'importe quel appareil.",
+    "h-btn": "Explorer l'Automation Canvas",
+    "features-title": "Un copilote numérique pour des tâches réelles.",
+    "features-subtitle": "WebPilot transforme les processus manuels en automatisations visuelles prêtes pour la production.",
+    "feat1-title": "Sélecteur d'éléments visuel",
+    "feat1-text": "Sélectionnez visuellement des éléments web et générez automatiquement des sélecteurs CSS.",
+    "feat2-title": "Constructeur de flux",
+    "feat2-text": "Glissez-déposez des blocs pour créer des automatisations complexes sans écrire de code.",
+    "feat3-title": "Modèles prédéfinis",
+    "feat3-text": "Commencez rapidement avec des modèles pour le scraping, les tests et les automatisations courantes.",
+    "feat4-title": "Exécution avec Playwright",
+    "feat4-text": "Backend robuste qui exécute des automatisations réelles dans des navigateurs contrôlés.",
+    "feat5-title": "Frontend Next.js 14",
+    "feat5-text": "Interface moderne et réactive construite avec la dernière version de Next.js.",
+    "feat6-title": "API RESTful",
+    "feat6-text": "API complète pour gérer et exécuter des automatisations de manière programmatique.",
+    "canvas-title": "Automation Canvas",
+    "canvas-subtitle": "Construisez des flux étape par étape en utilisant des blocs visuels connectés. Glissez, connectez et exécutez.",
+    "n1-t": "Déclencheur : Manuel",
+    "n2-t": "Action : Extraire des données",
+    "n3-t": "Sortie : Google Sheets",
+    "n4-t": "Sélecteur d'éléments",
+    "usecases-title": "Cas d'utilisation & Applications",
+    "usecases-subtitle": "Des automatisations simples aux flux de production complexes.",
+    "uc1-title": "Web Scraping avancé",
+    "uc1-text": "Extrayez des données de sites complexes avec JavaScript, pagination et authentification.",
+    "uc1-tag": "ACTUEL",
+    "uc2-title": "Automatisation des tests",
+    "uc2-text": "Tests end-to-end et de régression visuelle pour applications web.",
+    "uc2-tag": "ACTUEL",
+    "uc3-title": "RPA pour entreprises",
+    "uc3-text": "Automatisez les processus métier impliquant plusieurs systèmes web.",
+    "uc3-tag": "ACTUEL",
+    "uc4-title": "Surveillance des prix",
+    "uc4-text": "Suivez les prix des concurrents et produits en temps réel.",
+    "uc4-tag": "FUTUR",
+    "uc5-title": "Automatisation des réseaux sociaux",
+    "uc5-text": "Planifiez des publications, extrayez des métriques et automatisez les interactions.",
+    "uc5-tag": "FUTUR",
+    "uc6-title": "Intégration de systèmes",
+    "uc6-text": "Connectez des applications web sans API grâce à l'automatisation.",
+    "uc6-tag": "FUTUR",
+    "architecture-title": "Architecture évolutive",
+    "architecture-subtitle": "Conçu pour passer des prototypes rapides aux systèmes d'entreprise.",
+    "arch1-title": "Sécurisé et contrôlé",
+    "arch1-text": "Chaque flux est explicite, visuel et vérifiable. Vous savez exactement ce que fait le bot à chaque étape.",
+    "arch2-title": "Blocs réutilisables",
+    "arch2-text": "Concevez des actions une fois et réutilisez-les dans plusieurs flux et projets.",
+    "arch3-title": "Canvas multiplateforme",
+    "arch3-text": "L'Automation Canvas fonctionne sur bureau et mobile, conçu pour prototyper n'importe où.",
+    "arch4-title": "Prêt pour l'IA",
+    "arch4-text": "Architecture conçue pour intégrer une logique intelligente, des validations et des décisions automatiques.",
+    "arch5-title": "De l'idée à la production",
+    "arch5-text": "Passez d'un flux visuel à une automatisation réelle sans refaire le travail.",
+    "arch6-title": "Évolutif par conception",
+    "arch6-text": "Conçu pour évoluer vers des bots complexes, du scraping avancé et des systèmes RPA complets.",
+    "final-title": "L'automatisation ne devrait pas être compliquée",
+    "final-text": "WebPilot montre que les flux complexes peuvent être conçus de manière claire, visuelle et réutilisable.",
+    "final-btn": "Voir le Canvas en action",
+    "footer-text": "© 2025 WebPilot Automation Engine · Flux de travail visuels pour le web",
+    
+  }
+};
+
+// Current language
+let currentLang = 'es';
+
+// Features data
+const features = [
+  { icon: 'fa-mouse-pointer', title: 'feat1-title', text: 'feat1-text' },
+  { icon: 'fa-project-diagram', title: 'feat2-title', text: 'feat2-text' },
+  { icon: 'fa-layer-group', title: 'feat3-title', text: 'feat3-text' },
+  { icon: 'fa-play', title: 'feat4-title', text: 'feat4-text' },
+  { icon: 'fa-desktop', title: 'feat5-title', text: 'feat5-text' },
+  { icon: 'fa-code', title: 'feat6-title', text: 'feat6-text' }
+];
+
+// Use cases data
+const useCases = [
+  { icon: 'fa-database', title: 'uc1-title', text: 'uc1-text', tag: 'uc1-tag' },
+  { icon: 'fa-vial', title: 'uc2-title', text: 'uc2-text', tag: 'uc2-tag' },
+  { icon: 'fa-building', title: 'uc3-title', text: 'uc3-text', tag: 'uc3-tag' },
+  { icon: 'fa-chart-line', title: 'uc4-title', text: 'uc4-text', tag: 'uc4-tag' },
+  { icon: 'fa-hashtag', title: 'uc5-title', text: 'uc5-text', tag: 'uc5-tag' },
+  { icon: 'fa-plug', title: 'uc6-title', text: 'uc6-text', tag: 'uc6-tag' }
+];
+
+// Initialize the page
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize language
+  initializeLanguage();
+  
+  // Initialize features grid
+  initializeFeaturesGrid();
+  
+  // Initialize use cases grid
+  initializeUseCasesGrid();
+  
+  // Initialize canvas interaction
+  initializeCanvas();
+  
+  // Language switcher
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      switchLanguage(lang);
+    });
+  });
+});
+
+function initializeLanguage() {
+  // Set Spanish as default
+  updateTexts('es');
+}
+
+function switchLanguage(lang) {
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-lang') === lang) {
+      btn.classList.add('active');
+    }
+  });
+  
+  // Update texts
+  updateTexts(lang);
+  currentLang = lang;
+}
+
+function updateTexts(lang) {
+  // Update all elements with translation keys
+  Object.keys(translations[lang]).forEach(key => {
+    const elements = document.querySelectorAll(`[id="${key}"]`);
+    elements.forEach(el => {
+      el.textContent = translations[lang][key];
+    });
+  });
+}
+
+function initializeFeaturesGrid() {
+  const grid = document.getElementById('features-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = features.map(feat => `
+    <div class="feature-card">
+      <div class="f-icon-wrapper"><i class="fas ${feat.icon} f-icon"></i></div>
+      <h3 id="${feat.title}">${translations[currentLang][feat.title]}</h3>
+      <p id="${feat.text}">${translations[currentLang][feat.text]}</p>
+    </div>
+  `).join('');
+}
+
+function initializeUseCasesGrid() {
+  const grid = document.getElementById('use-cases-grid');
+  if (!grid) return;
+  
+  grid.innerHTML = useCases.map(uc => `
+    <div class="use-case-card">
+      <div class="uc-icon-wrapper"><i class="fas ${uc.icon} uc-icon"></i></div>
+      <div class="uc-tag" id="${uc.tag}">${translations[currentLang][uc.tag]}</div>
+      <h4 id="${uc.title}">${translations[currentLang][uc.title]}</h4>
+      <p id="${uc.text}">${translations[currentLang][uc.text]}</p>
+    </div>
+  `).join('');
+}
+
+function initializeCanvas() {
+  const canvas = document.getElementById("canvas-bg");
+  const nodes = document.querySelectorAll(".node");
+  let activeNode = null;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  nodes.forEach(node => {
+    node.style.touchAction = "none";
+
+    node.addEventListener("pointerdown", e => {
+      activeNode = node;
+      const rect = node.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      node.setPointerCapture(e.pointerId);
+    });
+  });
+
+  document.addEventListener("pointermove", e => {
+    if (!activeNode) return;
+    const canvasRect = canvas.getBoundingClientRect();
+    let x = e.clientX - canvasRect.left - offsetX;
+    let y = e.clientY - canvasRect.top - offsetY;
+    activeNode.style.left = x + "px";
+    activeNode.style.top = y + "px";
+    updatePaths();
+  });
+
+  document.addEventListener("pointerup", e => {
+    if (!activeNode) return;
+    activeNode.releasePointerCapture(e.pointerId);
+    activeNode = null;
+  });
+
+  const paths = [
+    {start:"n1", end:"n2", path:"path1", dot:"dot1"},
+    {start:"n2", end:"n3", path:"path2", dot:"dot2"},
+    {start:"n4", end:"n2", path:"path3", dot:"dot3"}
+  ];
+
+  function updateCurve(startId, endId, pathId, dotId) {
+    const s = document.getElementById(startId);
+    const e = document.getElementById(endId);
+    const p = document.getElementById(pathId);
+    const dot = document.getElementById(dotId);
+
+    const sx = s.offsetLeft + s.offsetWidth;
+    const sy = s.offsetTop + s.offsetHeight / 2;
+    const ex = e.offsetLeft;
+    const ey = e.offsetTop + e.offsetHeight / 2;
+
+    p.setAttribute("d", `M ${sx} ${sy} C ${sx + 120} ${sy}, ${ex - 120} ${ey}, ${ex} ${ey}`);
+    
+    const len = p.getTotalLength();
+    const pos = p.getPointAtLength((Date.now() / 2000 % 1) * len);
+    dot.setAttribute("cx", pos.x);
+    dot.setAttribute("cy", pos.y);
+  }
+
+  function updatePaths() {
+    paths.forEach(p => updateCurve(p.start, p.end, p.path, p.dot));
+  }
+
+  function render() {
+    updatePaths();
+    requestAnimationFrame(render);
+  }
+  render();
+}
+</script>
+
+</body>
+</html>
