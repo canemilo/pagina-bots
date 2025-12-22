@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Automatiza tareas repetitivas con bots personalizados: gestión de correos, búsquedas inteligentes, descargas y validación de datos.">
+  <title>Automatización Inteligente | Bots Profesionales</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-100: #071228;
+      --bg-200: #0b2636;
+      --accent-1: #0ea5a4;
+      --accent-2: #ea8511;
+      --accent-3: #7fc9ee;
+      --text: #e8f1f7;
+      --muted: #98a4b2;
+      --glass-border: rgba(255,255,255,0.03);
+      --max-width: 1200px;
+      font-family: 'Sora', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: linear-gradient(180deg, var(--bg-100), var(--bg-200));
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* Botones de idioma */
+    .lang-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .lang-btn {
+      font-size: 1.2rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .lang-btn:hover { transform: scale(1.2); }
+
+    header h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 0 auto 2rem;
+      color: var(--muted);
+    }
+
+    .cta {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.05rem;
+      background: linear-gradient(270deg, #ff4d6d, #ff9068, #ffd166, #1fb6ff, #0ea5a4);
+      background-size: 1000% 1000%;
+      animation: gradientMove 8s ease infinite;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.1) inset;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      transform: scale(1.1) rotate(-1deg);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255,255,255,0.2) inset;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    section {
+      padding: 6rem 2rem;
+      max-width: var(--max-width);
+      margin: auto;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 28px rgba(2,8,15,0.6);
+      border: 1px solid var(--glass-border);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card h3 { margin-bottom: 0.4rem; color: var(--accent-1); font-weight:700; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    .cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .case-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.002));
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 10px 28px rgba(2,8,15,0.4);
+      transition: transform 0.22s ease;
+    }
+    .case-card:hover { transform: translateY(-4px); }
+    .case-card h4 { color: var(--accent-2); margin-bottom: 0.6rem; }
+    .case-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .main-img {
+      width: 100%;
+      max-height: 600px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
+    .case-images {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .case-images img {
+      width: 120px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .case-images img:hover { transform: scale(1.08); }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- Botones de idioma centrados arriba -->
+    <div class="lang-buttons">
+      <button class="lang-btn" data-lang="es">🇪🇸</button>
+      <button class="lang-btn" data-lang="en">🇺🇸</button>
+    </div>
+
+    <h1 id="headerTitle">Automatiza lo repetitivo</h1>
+    <p id="headerDesc">Bots personalizados que gestionan correos, búsquedas inteligentes, descargas automáticas y generan resultados listos para usar.</p>
+    <a href="#bots" class="cta" id="ctaBtn">Ver lo que hacen</a>
+  </header>
+
+  <main>
+    <section id="bots">
+      <h2 id="botsTitle">¿Qué hacen mis bots?</h2>
+      <div class="grid">
+        <div class="card">
+          <h3 id="bot1Title">Automatización de correos</h3>
+          <p id="bot1Desc">Envío, lectura y clasificación automática de emails, con respuestas condicionadas según reglas o eventos definidos.</p>
+        </div>
+        <div class="card">
+          <h3 id="bot2Title">Búsqueda inteligente</h3>
+          <p id="bot2Desc">Bots que navegan por la web, filtran información relevante y localizan documentos o datos concretos.</p>
+        </div>
+        <div class="card">
+          <h3 id="bot3Title">Descarga y gestión de archivos</h3>
+          <p id="bot3Desc">Descarga automática de PDFs y documentos, organización por carpetas y control de versiones.</p>
+        </div>
+        <div class="card">
+          <h3 id="bot4Title">Flujos personalizados</h3>
+          <p id="bot4Desc">Los bots se adaptan a tu proceso y generan resultados finales sin intervención humana.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cases">
+      <h2 id="casesTitle">Ejemplos reales</h2>
+      <div class="cases">
+        <!-- Caso 1 -->
+        <div class="case-card">
+          <h4 id="case1Title">Correo automático</h4>
+          <img id="main-email-img" src="imagenes/iniciosesion/1.png" alt="Email paso 1" class="main-img">
+          <div class="case-images">
+            <img src="imagenes/iniciosesion/1.png" alt="Email paso 1" onclick="showImage(this)">
+            <img src="imagenes/iniciosesion/2.png" alt="Email paso 2" onclick="showImage(this)">
+            <img src="imagenes/iniciosesion/33.png" alt="Email paso 3" onclick="showImage(this)">
+          </div>
+          <p id="case1Desc">Lectura y respuesta de emails según reglas definidas.</p>
+        </div>
+        <!-- Caso 2 -->
+        <div class="case-card">
+          <h4 id="case2Title">Búsqueda en BOE</h4>
+          <img id="main-scraping-img" src="imagenes/BOE/11b.png" alt="Búsqueda inteligente" class="main-img">
+          <div class="case-images">
+            <img src="imagenes/BOE/11b.png" alt="Paso 1" onclick="showImage(this)">
+            <img src="imagenes/BOE/112b.png" alt="Paso 2" onclick="showImage(this)">
+            <img src="imagenes/BOE/113b.png" alt="Paso 3" onclick="showImage(this)">
+          </div>
+          <p id="case2Desc">El bot busca documentos, filtra por tipo y descarga PDFs automáticamente para análisis posterior.</p>
+        </div>
+        <!-- Caso 3 -->
+        <div class="case-card">
+          <h4 id="case3Title">Descarga y organización</h4>
+          <img id="main-files-img" src="imagenes/BOE/8b.png" alt="Gestión de archivos" class="main-img">
+          <div class="case-images">
+            <img src="imagenes/BOE/8b.png" alt="Paso 1" onclick="showImage(this)">
+            <img src="imagenes/BOE/7b.png" alt="Paso 2" onclick="showImage(this)">
+          </div>
+          <p id="case3Desc">Automatiza la descarga de archivos y los organiza en carpetas según fecha, tipo o proyecto.</p>
+        </div>
+        <!-- Caso 4 -->
+        <div class="case-card">
+          <h4 id="case4Title">Integración de datos</h4>
+          <img id="main-integration-img" src="imagenes/datos/2.png" alt="Integración" class="main-img">
+          <div class="case-images">
+            <img src="imagenes/datos/1.png" alt="Paso 1" onclick="showImage(this)">
+            <img src="imagenes/datos/2.png" alt="Paso 2" onclick="showImage(this)">
+            <img src="imagenes/datos/5.png" alt="Paso 3" onclick="showImage(this)">
+            <img src="imagenes/datos/8.png" alt="Paso 4" onclick="showImage(this)">
+          </div>
+          <p id="case4Desc">El bot combina información de varias fuentes y genera reportes listos para enviar o almacenar.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span id="footerText">© 2025 · Automatización Inteligente · Bots a medida</span>
+  </footer>
+
+  <script>
+    // Función para cambiar imagen principal
+    function showImage(el) {
+      const mainImg = el.closest('.case-card').querySelector('.main-img');
+      mainImg.src = el.src;
+    }
+
+    // Traducciones
+    const translations = {
+      en: {
+        headerTitle: "Automate the Repetitive",
+        headerDesc: "Custom bots that manage emails, perform smart searches, automatic downloads, and deliver ready-to-use results.",
+        ctaBtn: "See what they do",
+        botsTitle: "What do my bots do?",
+        bot1Title: "Email Automation",
+        bot1Desc: "Send, read, and automatically classify emails according to defined rules or events.",
+        bot2Title: "Smart Search",
+        bot2Desc: "Bots navigate the web, filter relevant information, and locate specific documents or data.",
+        bot3Title: "File Download & Management",
+        bot3Desc: "Automatic download of PDFs and documents, organization by folders, and version control.",
+        bot4Title: "Custom Workflows",
+        bot4Desc: "Bots adapt to your process and produce final results without human intervention.",
+        casesTitle: "Real Examples",
+        case1Title: "Automated Email",
+        case1Desc: "Read and reply to emails according to defined rules.",
+        case2Title: "BOE Search",
+        case2Desc: "The bot searches documents, filters by type, and automatically downloads PDFs for later analysis.",
+        case3Title: "File Download & Organization",
+        case3Desc: "Automates file downloads and organizes them into folders by date, type, or project.",
+        case4Title: "Data Integration",
+        case4Desc: "The bot combines information from multiple sources and generates reports ready to send or store.",
+        footerText: "© 2025 · Intelligent Automation · Custom Bots"
+      },
+      es: {
+        headerTitle: "Automatiza lo repetitivo",
+        headerDesc: "Bots personalizados que gestionan correos, búsquedas inteligentes, descargas automáticas y generan resultados listos para usar.",
+        ctaBtn: "Ver lo que hacen",
+        botsTitle: "¿Qué hacen mis bots?",
+        bot1Title: "Automatización de correos",
+        bot1Desc: "Envío, lectura y clasificación automática de emails, con respuestas condicionadas según reglas o eventos definidos.",
+        bot2Title: "Búsqueda inteligente",
+        bot2Desc: "Bots que navegan por la web, filtran información relevante y localizan documentos o datos concretos.",
+        bot3Title: "Descarga y gestión de archivos",
+        bot3Desc: "Descarga automática de PDFs y documentos, organización por carpetas y control de versiones.",
+        bot4Title: "Flujos personalizados",
+        bot4Desc: "Los bots se adaptan a tu proceso y generan resultados finales sin intervención humana.",
+        casesTitle: "Ejemplos reales",
+        case1Title: "Correo automático",
+        case1Desc: "Lectura y respuesta de emails según reglas definidas.",
+        case2Title: "Búsqueda en BOE",
+        case2Desc: "El bot busca documentos, filtra por tipo y descarga PDFs automáticamente para análisis posterior.",
+        case3Title: "Descarga y organización",
+        case3Desc: "Automatiza la descarga de archivos y los organiza en carpetas según fecha, tipo o proyecto.",
+        case4Title: "Integración de datos",
+        case4Desc: "El bot combina información de varias fuentes y genera reportes listos para enviar o almacenar.",
+        footerText: "© 2025 · Automatización Inteligente · Bots a medida"
+      }
+    };
+
+    // Cambio de idioma con botones de bandera
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const lang = btn.getAttribute('data-lang');
+        const t = translations[lang];
+        for (let id in t) {
+          const el = document.getElementById(id);
+          if (el) el.textContent = t[id];
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
